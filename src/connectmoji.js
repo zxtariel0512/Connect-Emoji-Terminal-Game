@@ -26,11 +26,8 @@ function indexToRowCol(board, i){
 
 function setCell(board, row, col, value){
     let index = rowColToIndex(board, row, col);
-    let newData = new Array(board.data.length);
-    for(let i = 0; i < newData.length; i++){
-        if(i == index) newData[i] = value;
-        else newData[i] = board.data[i];
-    }
+    let newData = [...board.data];
+    newData[index] = value;
     let newBoard = {
         data: newData,
         rows: board.rows,
