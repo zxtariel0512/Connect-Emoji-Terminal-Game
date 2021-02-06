@@ -8,7 +8,7 @@ console.log(modulePath);
 
 
 describe('connectmoji', function() {
-    describe('generateBoard', function() {
+    describe.only('generateBoard', function() {
         // TODO: write test for version with default " " value
         it('generates a board with specified number of rows and columns with default value of null', function() {
             const board = c.generateBoard(2, 3);
