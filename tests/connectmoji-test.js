@@ -78,7 +78,7 @@ describe('connectmoji', function() {
         });
     });
     
-    describe('setCells', function() {
+    describe.only('setCells', function() {
         it('places multiple values on board', function() {
             const board = c.generateBoard(3, 3, ' ');
             const updatedBoard = c.setCells(

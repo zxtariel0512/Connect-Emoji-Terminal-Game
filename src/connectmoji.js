@@ -36,7 +36,22 @@ function setCell(board, row, col, value){
     return newBoard;
 };
 
-
+function setCells(board, ...obj){
+    const rowNum = board.rows;
+    const colNum = board.cols;
+    let currBoardData = [...board.data];
+    let currBoard = {
+        data: currBoardData,
+        rows: rowNum,
+        cols: colNum
+    };
+    for(let i = 0; i < obj.length; i++){
+        let currObj = obj[i];
+        let newBoard = setCell(currBoard, currObj.row, currObj.col, currObj.val);
+        currBoard.data = [...newBoard.data];
+    };
+    return currBoard;
+};
 
 
 
@@ -46,5 +61,6 @@ module.exports = {
     generateBoard: generateBoard,
     rowColToIndex: rowColToIndex,
     indexToRowCol: indexToRowCol,
-    setCell: setCell
+    setCell: setCell,
+    setCells: setCells
 }
