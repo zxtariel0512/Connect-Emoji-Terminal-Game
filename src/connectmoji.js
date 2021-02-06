@@ -24,6 +24,21 @@ function indexToRowCol(board, i){
     return position;
 };
 
+function setCell(board, row, col, value){
+    let index = rowColToIndex(board, row, col);
+    let newData = new Array(board.data.length);
+    for(let i = 0; i < newData.length; i++){
+        if(i == index) newData[i] = value;
+        else newData[i] = board.data[i];
+    }
+    let newBoard = {
+        data: newData,
+        rows: board.rows,
+        cols: board.cols
+    }
+    return newBoard;
+};
+
 
 
 
@@ -33,5 +48,6 @@ function indexToRowCol(board, i){
 module.exports = {
     generateBoard: generateBoard,
     rowColToIndex: rowColToIndex,
-    indexToRowCol: indexToRowCol
+    indexToRowCol: indexToRowCol,
+    setCell: setCell
 }

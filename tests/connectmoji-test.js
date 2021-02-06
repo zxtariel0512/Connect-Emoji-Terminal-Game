@@ -50,7 +50,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe('setCell', function() {
+    describe.only('setCell', function() {
         it('sets the cell to the value specified by row and col', function() {
             let board = c.generateBoard(2, 3, ' ');
             board = c.setCell(board, 1, 1, 'X');
