@@ -30,7 +30,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe('rowColToIndex', function() {
+    describe.only('rowColToIndex', function() {
         it('translates a row and column to an index', function() {
             const board = c.generateBoard(3, 3);
             const i = c.rowColToIndex(board, 1, 1);
