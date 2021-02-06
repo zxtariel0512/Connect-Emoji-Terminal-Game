@@ -16,6 +16,14 @@ function rowColToIndex(board, row, col){
     return index;
 };
 
+function indexToRowCol(board, i){
+    let position = {
+        row: parseInt(i / board.cols),
+        col: i % board.cols
+    };
+    return position;
+};
+
 
 
 
@@ -24,5 +32,6 @@ function rowColToIndex(board, row, col){
 
 module.exports = {
     generateBoard: generateBoard,
-    rowColToIndex: rowColToIndex
+    rowColToIndex: rowColToIndex,
+    indexToRowCol: indexToRowCol
 }

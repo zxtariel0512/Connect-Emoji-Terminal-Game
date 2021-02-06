@@ -40,7 +40,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe('indexToRowCol', function() {
+    describe.only('indexToRowCol', function() {
         it('translates an index to a row and col (as an object)', function() {
             const board = c.generateBoard(3, 3);
             const rowCol1 = c.indexToRowCol(board, 4);
