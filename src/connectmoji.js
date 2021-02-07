@@ -102,6 +102,21 @@ function boardToString(board){
     return result.trim();
 };
 
+function letterToCol(letter){
+    if(letter.length == 1){
+        const ascii = letter.charCodeAt(0);
+        if(ascii >= 65 && ascii <= 90){
+            return ascii - 65;
+        }
+        else{
+            return null;
+        }
+    }
+    else{
+        return null;
+    }
+};
+
 
 
 
@@ -112,5 +127,6 @@ module.exports = {
     indexToRowCol: indexToRowCol,
     setCell: setCell,
     setCells: setCells,
-    boardToString: boardToString
+    boardToString: boardToString,
+    letterToCol: letterToCol
 }
