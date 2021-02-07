@@ -113,7 +113,7 @@ describe('connectmoji', function() {
     });
     
 
-    describe('boardToString', function() {
+    describe.only('boardToString', function() {
         it('creates string version of board', function() {
             let board = c.generateBoard(6, 7);
             board = c.setCells(
