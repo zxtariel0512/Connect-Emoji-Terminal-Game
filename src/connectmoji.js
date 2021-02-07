@@ -117,6 +117,30 @@ function letterToCol(letter){
     }
 };
 
+function getEmptyRowCol(board, letter, empty = null){
+    const rowNum = board.rows;
+    const colNum = board.cols;
+    const values = [...board.data];
+    let colIdx = letterToCol(letter);
+    if(colIdx == null || colIdx > colNum - 1){
+        return null;
+    }
+    let rowIdx = -1;
+    for(let i = rowNum - 1; i >= 0; i--){
+        let oneIdx = rowColToIndex(board, i, colIdx);
+        if(values[oneIdx] == empty){
+            if(i > rowIdx){
+                rowIdx = i;
+            }
+        }
+        else{
+            rowIdx = -1;
+        }
+    }
+    if(rowIdx == -1) return null;
+    return {row: rowIdx, col: colIdx};
+};
+
 
 
 
@@ -128,5 +152,6 @@ module.exports = {
     setCell: setCell,
     setCells: setCells,
     boardToString: boardToString,
-    letterToCol: letterToCol
+    letterToCol: letterToCol,
+    getEmptyRowCol: getEmptyRowCol
 }
