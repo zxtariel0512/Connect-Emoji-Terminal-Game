@@ -345,7 +345,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe('autoplay', function() {
+    describe.only('autoplay', function() {
         it('autoplays a series of moves based on string', function() {
             const s = '😄🤮ABAACD';
 

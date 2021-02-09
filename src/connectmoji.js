@@ -251,6 +251,52 @@ function hasConsecutiveValues(board, row, col, n){
     return false;
 };
 
+function autoplay(board, s, numConsecutive){
+    let result = {};
+    const rowNum = board.rows;
+    const colNum = board.cols;
+    sArr = [...s];
+    result["pieces"] = [sArr[0], sArr[1]];
+    if(sArr.length == 2){
+        result["board"] = board;
+        return result;
+    }
+    for(let i = 2; i < sArr.length; i++){
+        let empPos = getEmptyRowCol(board, sArr[i]);
+        // invalid move, no valid empty cell, etc
+        if(empPos == null){
+            result["board"] = null;
+            result["lastPieceMoved"] = sArr[i % 2];
+            let error = {num: i - 1, val: sArr[i % 2], col: sArr[i]};
+            result["error"] = error;
+            return result;
+        }
+        // make move
+        let empRow = empPos.row;
+        let newBoard = setCell(board, empRow, letterToCol(sArr[i]), sArr[i % 2]);
+        // check if win
+        if(hasConsecutiveValues(newBoard, empRow, letterToCol(sArr[i]), numConsecutive)){
+            // check if still has other moves
+            if(i < sArr.length - 1){
+                result["board"] = null;
+                result["lastPieceMoved"] = sArr[(i + 1) % 2];
+                let error = {num: i, val: sArr[(i + 1) % 2], col: sArr[i + 1]};
+                result["error"] = error;
+                return result;
+            }
+            result["board"] = newBoard;
+            result["lastPieceMoved"] = sArr[i % 2];
+            result["winner"] = sArr[i % 2];
+            return result;
+        }
+        // update board
+        board.data = [...newBoard.data];
+    }
+    result["board"] = board;
+    result["lastPieceMoved"]  = sArr[(sArr.length - 1) % 2];
+    return result;
+};
+
 
 
 
@@ -264,5 +310,6 @@ module.exports = {
     letterToCol: letterToCol,
     getEmptyRowCol: getEmptyRowCol,
     getAvailableColumns: getAvailableColumns,
-    hasConsecutiveValues: hasConsecutiveValues
+    hasConsecutiveValues: hasConsecutiveValues,
+    autoplay: autoplay
 }
