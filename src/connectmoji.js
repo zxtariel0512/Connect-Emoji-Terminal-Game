@@ -69,7 +69,7 @@ function boardToString(board){
         }
     };
     if(maxWid == 0) {
-        maxWid = 8;
+        maxWid = 4;
     }
     else {
         maxWid = maxWid + 2;
@@ -141,6 +141,25 @@ function getEmptyRowCol(board, letter, empty = null){
     return {row: rowIdx, col: colIdx};
 };
 
+function getAvailableColumns(board){
+    let result = new Array();
+    const rowNum = board.rows;
+    const colNum = board.cols;
+    const values = [...board.data];
+    for(let i = 0; i < colNum; i++){
+        let add = false;
+        for(let j = 0; j < rowNum; j++){
+            if(values[rowColToIndex(board, j, i)] == null){
+                add = true;
+            }
+        }
+        if(add == true){
+            result.push(String.fromCharCode(i + 65));
+        }
+    }
+    return result;
+};
+
 
 
 
@@ -153,5 +172,6 @@ module.exports = {
     setCells: setCells,
     boardToString: boardToString,
     letterToCol: letterToCol,
-    getEmptyRowCol: getEmptyRowCol
+    getEmptyRowCol: getEmptyRowCol,
+    getAvailableColumns: getAvailableColumns
 }

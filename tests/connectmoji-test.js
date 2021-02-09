@@ -230,7 +230,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe('getAvailableColumns', function() {
+    describe.only('getAvailableColumns', function() {
         before(function() {
             function dropPiece(board, val, letter) {
                 const nextEmptyCell = c.getEmptyRowCol(board, letter);
