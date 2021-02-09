@@ -8,7 +8,7 @@ console.log(modulePath);
 
 
 describe('connectmoji', function() {
-    describe.only('generateBoard', function() {
+    describe('generateBoard', function() {
         // TODO: write test for version with default " " value
         it('generates a board with specified number of rows and columns with default value of null', function() {
             const board = c.generateBoard(2, 3);
@@ -30,7 +30,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('rowColToIndex', function() {
+    describe('rowColToIndex', function() {
         it('translates a row and column to an index', function() {
             const board = c.generateBoard(3, 3);
             const i = c.rowColToIndex(board, 1, 1);
@@ -40,7 +40,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('indexToRowCol', function() {
+    describe('indexToRowCol', function() {
         it('translates an index to a row and col (as an object)', function() {
             const board = c.generateBoard(3, 3);
             const rowCol1 = c.indexToRowCol(board, 4);
@@ -50,7 +50,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('setCell', function() {
+    describe('setCell', function() {
         it('sets the cell to the value specified by row and col', function() {
             let board = c.generateBoard(2, 3, ' ');
             board = c.setCell(board, 1, 1, 'X');
@@ -78,7 +78,7 @@ describe('connectmoji', function() {
         });
     });
     
-    describe.only('setCells', function() {
+    describe('setCells', function() {
         it('places multiple values on board', function() {
             const board = c.generateBoard(3, 3, ' ');
             const updatedBoard = c.setCells(
@@ -113,7 +113,7 @@ describe('connectmoji', function() {
     });
     
 
-    describe.only('boardToString', function() {
+    describe('boardToString', function() {
         it('creates string version of board', function() {
             let board = c.generateBoard(6, 7);
             board = c.setCells(
@@ -152,7 +152,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('letterToCol', function() {
+    describe('letterToCol', function() {
         it('translates a letter to a column value (A = 0, B = 1)', function() {
             expect(c.letterToCol("A")).to.equal(0);
             expect(c.letterToCol("Z")).to.equal(25);
@@ -169,7 +169,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('getEmptyRowCol', function() {
+    describe('getEmptyRowCol', function() {
         it('gives back an empty row col with row number less than lowest occupied row number in column', function() {
             let board = c.generateBoard(3, 2);
             board = c.setCells(
@@ -230,7 +230,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('getAvailableColumns', function() {
+    describe('getAvailableColumns', function() {
         before(function() {
             function dropPiece(board, val, letter) {
                 const nextEmptyCell = c.getEmptyRowCol(board, letter);
@@ -277,7 +277,7 @@ describe('connectmoji', function() {
     });
 
 
-    describe.only('hasConsecutiveValues', function() {
+    describe('hasConsecutiveValues', function() {
         it('determines if value at location is repeated x times vertically', function() {
             const board = c.generateBoard(3, 4);
             const updatedBoard = c.setCells(
@@ -345,7 +345,7 @@ describe('connectmoji', function() {
         });
     });
 
-    describe.only('autoplay', function() {
+    describe('autoplay', function() {
         it('autoplays a series of moves based on string', function() {
             const s = '😄🤮ABAACD';
 

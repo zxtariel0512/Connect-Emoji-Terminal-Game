@@ -4,56 +4,56 @@
 const wcwidth = require("wcwidth");
 
 function generateBoard(rows, cols, fill = null){
-    let board = {
+    const board = {
         data: new Array(rows * cols).fill(fill),
         rows: rows,
         cols: cols
     };
     return board;
-};
+}
 
 function rowColToIndex(board, row, col){
     const colNum = board.cols;
-    let index = col + row * colNum;
+    const index = col + row * colNum;
     return index;
-};
+}
 
 function indexToRowCol(board, i){
-    let position = {
+    const position = {
         row: parseInt(i / board.cols),
         col: i % board.cols
     };
     return position;
-};
+}
 
 function setCell(board, row, col, value){
-    let index = rowColToIndex(board, row, col);
-    let newData = [...board.data];
+    const index = rowColToIndex(board, row, col);
+    const newData = [...board.data];
     newData[index] = value;
-    let newBoard = {
+    const newBoard = {
         data: newData,
         rows: board.rows,
         cols: board.cols
-    }
+    };
     return newBoard;
-};
+}
 
 function setCells(board, ...obj){
     const rowNum = board.rows;
     const colNum = board.cols;
-    let currBoardData = [...board.data];
-    let currBoard = {
+    const currBoardData = [...board.data];
+    const currBoard = {
         data: currBoardData,
         rows: rowNum,
         cols: colNum
     };
     for(let i = 0; i < obj.length; i++){
-        let currObj = obj[i];
-        let newBoard = setCell(currBoard, currObj.row, currObj.col, currObj.val);
+        const currObj = obj[i];
+        const newBoard = setCell(currBoard, currObj.row, currObj.col, currObj.val);
         currBoard.data = [...newBoard.data];
-    };
+    }
     return currBoard;
-};
+}
 
 function boardToString(board){
     const rowNum = board.rows;
@@ -62,13 +62,13 @@ function boardToString(board){
     let result = "";
     let maxWid = 0;
     for(let i = 0; i < values.length; i++){
-        if(values[i] != null){
+        if(values[i] !== null){
             if(wcwidth(values[i]) > maxWid) {
                 maxWid = wcwidth(values[i]);
             }
         }
-    };
-    if(maxWid == 0) {
+    }
+    if(maxWid === 0) {
         maxWid = 4;
     }
     else {
@@ -77,13 +77,13 @@ function boardToString(board){
     for(let i = 0; i < rowNum; i++){
         let rowString = "";
         for(let j = 0; j < colNum; j++){
-            let index = rowColToIndex(board, i, j);
-            let currVal = values[index];
-            if(currVal == null) {
+            const index = rowColToIndex(board, i, j);
+            const currVal = values[index];
+            if(currVal === null) {
                 rowString += "|" + " ".repeat(maxWid);
             }
             else{
-                let endSpace = maxWid - 1 - wcwidth(currVal);
+                const endSpace = maxWid - 1 - wcwidth(currVal);
                 rowString += "| " + currVal + " ".repeat(endSpace);
             }
         }
@@ -94,16 +94,16 @@ function boardToString(board){
     result += rowString + '\n';
     rowString = "";
     for(let i = 0; i < colNum; i++){
-        let colLabel = String.fromCharCode(i + 65);
+        const colLabel = String.fromCharCode(i + 65);
         rowString += "| " + colLabel + " ".repeat((maxWid - 2));
     }
     rowString += "|";
     result += rowString + '\n';
     return result.trim();
-};
+}
 
 function letterToCol(letter){
-    if(letter.length == 1){
+    if(letter.length === 1){
         const ascii = letter.charCodeAt(0);
         if(ascii >= 65 && ascii <= 90){
             return ascii - 65;
@@ -115,20 +115,20 @@ function letterToCol(letter){
     else{
         return null;
     }
-};
+}
 
 function getEmptyRowCol(board, letter, empty = null){
     const rowNum = board.rows;
     const colNum = board.cols;
     const values = [...board.data];
-    let colIdx = letterToCol(letter);
-    if(colIdx == null || colIdx > colNum - 1){
+    const colIdx = letterToCol(letter);
+    if(colIdx === null || colIdx > colNum - 1){
         return null;
     }
     let rowIdx = -1;
     for(let i = rowNum - 1; i >= 0; i--){
-        let oneIdx = rowColToIndex(board, i, colIdx);
-        if(values[oneIdx] == empty){
+        const oneIdx = rowColToIndex(board, i, colIdx);
+        if(values[oneIdx] === empty){
             if(i > rowIdx){
                 rowIdx = i;
             }
@@ -137,31 +137,31 @@ function getEmptyRowCol(board, letter, empty = null){
             rowIdx = -1;
         }
     }
-    if(rowIdx == -1) return null;
+    if(rowIdx === -1) {return null;}
     return {row: rowIdx, col: colIdx};
-};
+}
 
 function getAvailableColumns(board){
-    let result = new Array();
+    const result = new Array();
     const rowNum = board.rows;
     const colNum = board.cols;
     const values = [...board.data];
     for(let i = 0; i < colNum; i++){
         let add = false;
         for(let j = 0; j < rowNum; j++){
-            if(values[rowColToIndex(board, j, i)] == null){
+            if(values[rowColToIndex(board, j, i)] === null){
                 add = true;
             }
         }
-        if(add == true){
+        if(add === true){
             result.push(String.fromCharCode(i + 65));
         }
     }
     return result;
-};
+}
 
 function hasConsecutiveValues(board, row, col, n){
-    if(n == 1){
+    if(n === 1){
         return true;
     }
     const rowNum = board.rows;
@@ -171,16 +171,16 @@ function hasConsecutiveValues(board, row, col, n){
     // horizontal check
     let consec = 0;
     for(let i = col; i >= 0; i--){
-        if(values[rowColToIndex(board, row, i)] == pattern){
+        if(values[rowColToIndex(board, row, i)] === pattern){
             consec += 1;
         }
-        else break;
+        else {break;}
     }
     for(let i = col; i < colNum; i++){
-        if(values[rowColToIndex(board, row, i)] == pattern){
+        if(values[rowColToIndex(board, row, i)] === pattern){
             consec += 1;
         }
-        else break;
+        else {break;}
     }
     if(consec - 1 >= n){
         return true;
@@ -188,16 +188,16 @@ function hasConsecutiveValues(board, row, col, n){
     // vertical check
     consec = 0;
     for(let i = row; i >= 0; i--){
-        if(values[rowColToIndex(board, i, col)] == pattern){
+        if(values[rowColToIndex(board, i, col)] === pattern){
             consec += 1;
         }
-        else break;
+        else {break;}
     }
     for(let i = row; i < rowNum; i++){
-        if(values[rowColToIndex(board, i, col)] == pattern){
+        if(values[rowColToIndex(board, i, col)] === pattern){
             consec += 1;
         }
-        else break;
+        else {break;}
     }
     if(consec - 1 >= n){
         return true;
@@ -207,80 +207,80 @@ function hasConsecutiveValues(board, row, col, n){
     let i = row; 
     let j = col;
     while(i >= 0 && j >= 0){
-        if(values[rowColToIndex(board, i, j)] == pattern) {
+        if(values[rowColToIndex(board, i, j)] === pattern) {
             consec += 1;
             i--;
             j--;
         }
-        else break;
+        else {break;}
     }
     i = row;
     j = col;
     while(i < rowNum && j < colNum){
-        if(values[rowColToIndex(board, i, j)] == pattern) {
+        if(values[rowColToIndex(board, i, j)] === pattern) {
             consec += 1;
             i++;
             j++;
         }
-        else break;
+        else {break;}
     }
-    if(consec - 1 >= n) return true;
+    if(consec - 1 >= n) {return true;}
     // / diagonal check
     consec = 0;
     i = row;
     j = col;
     while(i >= 0 && j < colNum){
-        if(values[rowColToIndex(board, i, j)] == pattern) {
+        if(values[rowColToIndex(board, i, j)] === pattern) {
             consec += 1;
             i--;
             j++;
         }
-        else break;
+        else {break;}
     }
     i = row;
     j = col;
     while(i < rowNum && j >= 0){
-        if(values[rowColToIndex(board, i, j)] == pattern) {
+        if(values[rowColToIndex(board, i, j)] === pattern) {
             consec += 1;
             i++;
             j--;
         }
-        else break;
+        else {break;}
     }
-    if(consec - 1 >= n) return true;
+    if(consec - 1 >= n) {return true;}
     return false;
-};
+}
 
 function autoplay(board, s, numConsecutive){
-    let result = {};
-    const rowNum = board.rows;
-    const colNum = board.cols;
-    sArr = [...s];
+    const result = {};
+    // const rowNum = board.rows;
+    // const colNum = board.cols;
+    const sArr = [...s];
     result["pieces"] = [sArr[0], sArr[1]];
-    if(sArr.length == 2){
+    if(sArr.length === 2){
         result["board"] = board;
         return result;
     }
     for(let i = 2; i < sArr.length; i++){
-        let empPos = getEmptyRowCol(board, sArr[i]);
+        const empPos = getEmptyRowCol(board, sArr[i]);
         // invalid move, no valid empty cell, etc
-        if(empPos == null){
+        if(empPos === null){
             result["board"] = null;
             result["lastPieceMoved"] = sArr[i % 2];
-            let error = {num: i - 1, val: sArr[i % 2], col: sArr[i]};
+            const error = {num: i - 1, val: sArr[i % 2], col: sArr[i]};
             result["error"] = error;
             return result;
         }
         // make move
-        let empRow = empPos.row;
-        let newBoard = setCell(board, empRow, letterToCol(sArr[i]), sArr[i % 2]);
+        const empRow = empPos.row;
+        const newBoard = setCell(board, empRow, letterToCol(sArr[i]), sArr[i % 2]);
         // check if win
         if(hasConsecutiveValues(newBoard, empRow, letterToCol(sArr[i]), numConsecutive)){
             // check if still has other moves
             if(i < sArr.length - 1){
                 result["board"] = null;
                 result["lastPieceMoved"] = sArr[(i + 1) % 2];
-                let error = {num: i, val: sArr[(i + 1) % 2], col: sArr[i + 1]};
+                const error = {num: i, val: sArr[(i + 1) % 2], col: sArr[i + 1]};
                 result["error"] = error;
                 return result;
             }
@@ -293,9 +293,9 @@ function autoplay(board, s, numConsecutive){
         board.data = [...newBoard.data];
     }
     result["board"] = board;
-    result["lastPieceMoved"]  = sArr[(sArr.length - 1) % 2];
+    result["lastPieceMoved"] = sArr[(sArr.length - 1) % 2];
     return result;
-};
+}
 
 
 
@@ -312,4 +312,4 @@ module.exports = {
     getAvailableColumns: getAvailableColumns,
     hasConsecutiveValues: hasConsecutiveValues,
     autoplay: autoplay
-}
+};
