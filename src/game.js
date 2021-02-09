@@ -9,22 +9,21 @@ function getRandomInt(max) {
 }
 
 
-const raw = process.argv[2];
 // user controlled
-if(raw == null){
+if(process.argv.length === 2){
     // get meta data
     let answer = readlineSync.question("Enter the number of rows, columns, and consecutive \"pieces\" for win\n(all separated by commas... for example: 6,7,4)\n> ");
     let row = 0;
     let col = 0;
     let numConsecutive = 0;
-    if(answer == ""){
+    if(answer === ""){
         row = 6;
         col = 7;
         numConsecutive = 4;
     }
     else{
         const answerArr = answer.split(',');
-        row = answerArr[0]
+        row = answerArr[0];
         col = answerArr[1];
         numConsecutive = answerArr[2];
     }
@@ -32,19 +31,19 @@ if(raw == null){
     answer = readlineSync.question("\nEnter two characters that represent the player and computer\n(separated by a comma... for example: P,C)\n> ");
     let user;
     let computer;
-    if(answer == ""){
+    if(answer === ""){
         user = "😎";
         computer = "💻";
     }
     else{
         const answerArr = [...answer];
-        user = answerArr[0]
+        user = answerArr[0];
         computer = answerArr[answerArr.length - 1];
     }
     console.log("Using player and computer characters: " + user + " " + computer);
     answer = readlineSync.question("\nWho goes first, (P)layer or (C)omputer? (Notice: case sensitive!)\n> ");
     let lastPiece;
-    if(answer == 'C'){
+    if(answer === 'C'){
         console.log("Computer goes first");
         lastPiece = user;
     }
@@ -57,22 +56,23 @@ if(raw == null){
     // start the game
     const board = c.generateBoard(row, col);
     console.log(c.boardToString(board));
-    while(true){
+    const bigWhile = true;
+    while(bigWhile){
         // check if has empty col
         const emptyCol = c.getAvailableColumns(board);
-        if(emptyCol.length == 0){
+        if(emptyCol.length === 0){
             console.log("No winner. So sad :(");
             break;
         }
         // next turn user
-        if(lastPiece != user){
+        if(lastPiece !== user){
             let invalid = true;
             let answer = "";
             let position;
             while(invalid){
                 answer = readlineSync.question("Choose a column letter to drop your piece in...\n");
                 position = c.getEmptyRowCol(board, answer);
-                if(position == null){
+                if(position === null){
                     console.log("Sorry, your chosen column is invalid / does not have valid empty cell. Please choose another one.");
                 }
                 else{
@@ -94,7 +94,7 @@ if(raw == null){
         // next turn computer
         else{
             console.log("Press <ENTER> to see computer move...");
-            stop = readlineSync.question("");
+            readlineSync.question("");
             const randIdx = getRandomInt(emptyCol.length);
             const pos = c.getEmptyRowCol(board, emptyCol[randIdx]);
             const afterMoveBoard = c.setCell(board, pos.row, pos.col, computer);
@@ -113,6 +113,7 @@ if(raw == null){
 
 // scripted move
 else{
+    const raw = process.argv[2];
     // get metadata
     const rawArr = [...raw];
     const user = rawArr[0];
@@ -122,7 +123,7 @@ else{
     let numConsecutive = "";
     let flag = 1;
     for(let i = 2; i < rawArr.length; i++){
-        if(rawArr[i] != ","){
+        if(rawArr[i] !== ","){
             if(flag === 1){
                 s += rawArr[i];
             }
@@ -144,36 +145,37 @@ else{
     colNum = parseInt(colNum);
     numConsecutive = parseInt(numConsecutive);
     const board = c.generateBoard(rowNum, colNum);
-    let result  = c.autoplay(board, s, numConsecutive);
+    const result = c.autoplay(board, s, numConsecutive);
     let computer = "";
-    if(result.pieces[0] == user){computer = result.pieces[1];}
+    if(result.pieces[0] === user){computer = result.pieces[1];}
     else{computer = result.pieces[0];}
-    let newBoard = result.board;
+    const newBoard = result.board;
     console.log("press ENTER to continue…");
-    let stop = readlineSync.question("");
+    readlineSync.question("");
     console.log(c.boardToString(newBoard));
-    if(result.hasOwnProperty("winner")){
+    if("winner" in result){
         console.log("Winner is " + result.winner + " !");
     }
     else{
         board.data = [...newBoard.data];
         let lastPiece = result.lastPieceMoved;
-        while(true){
+        const bigWhile = true;
+        while(bigWhile){
             // check if has empty col
             const emptyCol = c.getAvailableColumns(board);
-            if(emptyCol.length == 0){
+            if(emptyCol.length === 0){
                 console.log("No winner. So sad :(");
                 break;
             }
             // next turn user
-            if(lastPiece != user){
+            if(lastPiece !== user){
                 let invalid = true;
                 let answer = "";
                 let position;
                 while(invalid){
                     answer = readlineSync.question("Choose a column letter to drop your piece in...\n> ");
                     position = c.getEmptyRowCol(board, answer);
-                    if(position == null){
+                    if(position === null){
                         console.log("Sorry, your chosen column is invalid / does not have valid empty cell. Please choose another one.");
                     }
                     else{
@@ -195,7 +197,7 @@ else{
             // next turn computer
             else{
                 console.log("Press <ENTER> to see computer move...");
-                stop = readlineSync.question("");
+                readlineSync.question("");
                 const randIdx = getRandomInt(emptyCol.length);
                 const pos = c.getEmptyRowCol(board, emptyCol[randIdx]);
                 const afterMoveBoard = c.setCell(board, pos.row, pos.col, computer);
