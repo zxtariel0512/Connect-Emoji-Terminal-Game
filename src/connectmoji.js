@@ -160,6 +160,96 @@ function getAvailableColumns(board){
     return result;
 };
 
+function hasConsecutiveValues(board, row, col, n){
+    if(n == 1){
+        return true;
+    }
+    const rowNum = board.rows;
+    const colNum = board.cols;
+    const values = [...board.data];
+    const pattern = values[rowColToIndex(board, row, col)];
+    // horizontal check
+    let consec = 0;
+    for(let i = col; i >= 0; i--){
+        if(values[rowColToIndex(board, row, i)] == pattern){
+            consec += 1;
+        }
+        else break;
+    }
+    for(let i = col; i < colNum; i++){
+        if(values[rowColToIndex(board, row, i)] == pattern){
+            consec += 1;
+        }
+        else break;
+    }
+    if(consec - 1 >= n){
+        return true;
+    }
+    // vertical check
+    consec = 0;
+    for(let i = row; i >= 0; i--){
+        if(values[rowColToIndex(board, i, col)] == pattern){
+            consec += 1;
+        }
+        else break;
+    }
+    for(let i = row; i < rowNum; i++){
+        if(values[rowColToIndex(board, i, col)] == pattern){
+            consec += 1;
+        }
+        else break;
+    }
+    if(consec - 1 >= n){
+        return true;
+    }
+    // \ diagonal check
+    consec = 0;
+    let i = row; 
+    let j = col;
+    while(i >= 0 && j >= 0){
+        if(values[rowColToIndex(board, i, j)] == pattern) {
+            consec += 1;
+            i--;
+            j--;
+        }
+        else break;
+    }
+    i = row;
+    j = col;
+    while(i < rowNum && j < colNum){
+        if(values[rowColToIndex(board, i, j)] == pattern) {
+            consec += 1;
+            i++;
+            j++;
+        }
+        else break;
+    }
+    if(consec - 1 >= n) return true;
+    // / diagonal check
+    consec = 0;
+    i = row;
+    j = col;
+    while(i >= 0 && j < colNum){
+        if(values[rowColToIndex(board, i, j)] == pattern) {
+            consec += 1;
+            i--;
+            j++;
+        }
+        else break;
+    }
+    i = row;
+    j = col;
+    while(i < rowNum && j >= 0){
+        if(values[rowColToIndex(board, i, j)] == pattern) {
+            consec += 1;
+            i++;
+            j--;
+        }
+        else break;
+    }
+    if(consec - 1 >= n) return true;
+    return false;
+};
 
 
 
@@ -173,5 +263,6 @@ module.exports = {
     boardToString: boardToString,
     letterToCol: letterToCol,
     getEmptyRowCol: getEmptyRowCol,
-    getAvailableColumns: getAvailableColumns
+    getAvailableColumns: getAvailableColumns,
+    hasConsecutiveValues: hasConsecutiveValues
 }

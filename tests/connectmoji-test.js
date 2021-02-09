@@ -277,7 +277,7 @@ describe('connectmoji', function() {
     });
 
 
-    describe('hasConsecutiveValues', function() {
+    describe.only('hasConsecutiveValues', function() {
         it('determines if value at location is repeated x times vertically', function() {
             const board = c.generateBoard(3, 4);
             const updatedBoard = c.setCells(
